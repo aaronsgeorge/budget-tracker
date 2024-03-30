@@ -30,7 +30,7 @@ const ExpenseList = (prop ) => {
 			{jsonData.map((item, index) => (
         <div key={index}>
           {Object.entries(item).map(([key, value]) => (
-            
+           
 					<ExpenseItem
 						id={key}
 						name={key}

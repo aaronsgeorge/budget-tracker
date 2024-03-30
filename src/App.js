@@ -14,6 +14,7 @@ import { auth, db } from "./firebase";
 import { collection, getDocs,doc } from "firebase/firestore";
 
 function App() {
+    const [data,setData]=useState([]);
     const [userName, setUserName] = useState("");
 
     useEffect(() => {
@@ -30,8 +31,8 @@ function App() {
 		try {
 			const querySnapshot = await getDocs(collection(db, 'budget'));
 			const jsonData = querySnapshot.docs.map(doc => doc.data());
-			console.log(jsonData);
-			return jsonData;
+			// console.log(jsonData);
+			setData(jsonData);
 		} catch (error) {
 			console.log(error);
 		}
@@ -39,9 +40,10 @@ function App() {
 	};
 	
 
-    const handlePress = () => {
+    const handlePress = async() => {
         console.log("working");
-        getData();
+        await getData();
+
     };
 
     return (
@@ -70,7 +72,7 @@ function App() {
                 <h3 className='mt-3'>Expenses</h3>
                 <div className='row '>
                     <div className='col-sm'>
-                        <ExpenseList jsonData = {getData}  /> 
+                        <ExpenseList  jsonData={data} /> 
                     </div>
                 </div>
                 <h3 className='mt-3'>Add Expense</h3>
