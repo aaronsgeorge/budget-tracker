@@ -2,9 +2,9 @@ import React, { useContext, useState, useEffect } from 'react';
 import ExpenseItem from './ExpenseItem';
 import { AppContext } from '../context/AppContext';
 
-const ExpenseList = () => {
+const ExpenseList = (prop ) => {
 	const { expenses } = useContext(AppContext);
-
+	const {jsonData}=prop;
 	const [filteredExpenses, setfilteredExpenses] = useState(expenses || []);
 
 	useEffect(() => {
@@ -12,8 +12,8 @@ const ExpenseList = () => {
 	}, [expenses]);
 
 	const handleChange = (event) => {
-		const searchResults = expenses.filter((filteredExpense) =>
-			filteredExpense.name.toLowerCase().includes(event.target.value)
+		const searchResults = expenses.filter((filteredExpenses) =>
+		filteredExpenses[0](event.target.value)
 		);
 		setfilteredExpenses(searchResults);
 	};
@@ -27,12 +27,17 @@ const ExpenseList = () => {
 				onChange={handleChange}
 			/>
 			<ul class='list-group mt-3 mb-3'>
-				{filteredExpenses.map((expense) => (
+			{jsonData.map((item, index) => (
+        <div key={index}>
+          {Object.entries(item).map(([key, value]) => (
+            
 					<ExpenseItem
-						id={expense.id}
-						name={expense.name}
-						cost={expense.cost}
+						id={key}
+						name={key}
+						cost={value}
 					/>
+				))}
+				</div>
 				))}
 			</ul>
 		</>
