@@ -1,6 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { AppContext } from '../context/AppContext';
 import { v4 as uuidv4 } from 'uuid';
+import { doc, getDoc,getDocs,setDoc,collection,updateDoc } from "firebase/firestore";
+import { auth, db } from "../firebase";
 
 const AddExpenseForm = (props) => {
 	const { dispatch } = useContext(AppContext);
@@ -8,13 +10,19 @@ const AddExpenseForm = (props) => {
 	const [name, setName] = useState('');
 	const [cost, setCost] = useState('');
 
-	const onSubmit = (event) => {
+	const onSubmit = async (event) => {
 		event.preventDefault();
 		const expense = {
 			id: uuidv4(),
 			name,
 			cost: parseInt(cost),
 		};
+
+		const name1=expense.name;
+		const cost1=expense.cost;
+		const docRef = doc(db, 'budget', 'expense'); 
+
+        await updateDoc(docRef, { [name1]:cost1 });
 
 		dispatch({
 			type: 'ADD_EXPENSE',

@@ -25,6 +25,7 @@ function App() {
                 setUserName("");
             }
         });
+        handlePress();
     }, []);
 
 	const getData = async () => {
@@ -33,6 +34,7 @@ function App() {
 			const jsonData = querySnapshot.docs.map(doc => doc.data());
 			// console.log(jsonData);
 			setData(jsonData);
+           
 		} catch (error) {
 			console.log(error);
 		}
@@ -76,7 +78,7 @@ function App() {
                     </div>
                 </div>
                 <h3 className='mt-3'>Add Expense</h3>
-                <button onClick={handlePress}>Hi</button>
+                {/* <button onClick={handlePress}>Hi</button> */}
                 <div className='row mt-3'>
                     <div className='col-sm'>
                         <AddExpenseForm />

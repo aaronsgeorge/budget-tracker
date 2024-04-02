@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import ExpenseItem from './ExpenseItem';
 import { AppContext } from '../context/AppContext';
 
+
 const ExpenseList = (prop ) => {
 	const { expenses } = useContext(AppContext);
 	const {jsonData}=prop;
@@ -12,11 +13,14 @@ const ExpenseList = (prop ) => {
 	}, [expenses]);
 
 	const handleChange = (event) => {
-		const searchResults = expenses.filter((filteredExpenses) =>
-		filteredExpenses[0](event.target.value)
+		const searchTerm = event.target.value.toLowerCase();
+		const searchResults = expenses.filter((expense) =>
+		  Object.keys(expense).some((key) =>
+			expense[key].toString().toLowerCase().includes(searchTerm)
+		  )
 		);
 		setfilteredExpenses(searchResults);
-	};
+	  };
 
 	return (
 		<>
